@@ -1,0 +1,13 @@
+{
+  "name": "red-moon",
+  "packageManager": "yarn@3.0.1",
+  "workspaces": [
+    "red-moon-web"
+  ],
+  "scripts": {
+    "dev": "yarn workspace red-moon-web dev",
+    "build": "yarn workspace red-moon-web build",
+    "start": "yarn workspace red-moon-web start",
+    "lint": "yarn workspace red-moon-web lint"
+  }
+}

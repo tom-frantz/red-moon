@@ -5,13 +5,14 @@
 use std::{io, sync::Arc};
 
 use actix_cors::Cors;
-use actix_web::{
-    get, middleware, route,
+use actix_web_lab::respond::Html;
+use juniper::http::{graphiql::graphiql_source, GraphQLRequest};
+use lambda_web::actix_web::{
+    self, get, middleware, route,
     web::{self, Data},
     App, HttpResponse, HttpServer, Responder,
 };
-use actix_web_lab::respond::Html;
-use juniper::http::{graphiql::graphiql_source, GraphQLRequest};
+use lambda_web::{is_running_on_lambda, run_actix_on_lambda, LambdaError};
 
 mod schema;
 
@@ -31,7 +32,7 @@ async fn graphql(st: web::Data<Schema>, data: web::Json<GraphQLRequest>) -> impl
 }
 
 #[actix_web::main]
-async fn main() -> io::Result<()> {
+async fn main() -> Result<(), LambdaError> {
     env_logger::init_from_env(env_logger::Env::new().default_filter_or("info"));
 
     // Create Juniper schema
@@ -40,8 +41,7 @@ async fn main() -> io::Result<()> {
     log::info!("starting HTTP server on port 8080");
     log::info!("GraphiQL playground: http://localhost:8080/graphiql");
 
-    // Start HTTP server
-    HttpServer::new(move || {
+    let factory = move || {
         App::new()
             .app_data(Data::from(schema.clone()))
             .service(graphql)
@@ -49,9 +49,19 @@ async fn main() -> io::Result<()> {
             // the graphiql UI requires CORS to be enabled
             .wrap(Cors::permissive())
             .wrap(middleware::Logger::default())
-    })
-    .workers(2)
-    .bind(("127.0.0.1", 8080))?
-    .run()
-    .await
+    };
+
+    if is_running_on_lambda() {
+        // Run on AWS Lambda
+        run_actix_on_lambda(factory).await?;
+    } else {
+        // Local server
+        HttpServer::new(factory)
+            .workers(2)
+            .bind(("127.0.0.1", 8080))?
+            .run()
+            .await?;
+    }
+
+    Ok(())
 }

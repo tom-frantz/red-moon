@@ -1,0 +1,9 @@
+.idea
+**/.idea
+
+.env
+**/.env
+
+**/.serverless
+**/.serverless_nextjs
+**/.next

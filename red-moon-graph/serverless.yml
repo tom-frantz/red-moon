@@ -1,0 +1,22 @@
+service: demo
+provider:
+  name: aws
+  runtime: rust
+plugins:
+  # this registers the plugin
+  # with serverless
+  - serverless-rust
+# creates one artifact for each function
+package:
+  individually: true
+functions:
+  red-moon-graph:
+    # handler value syntax is `{cargo-package-name}.{bin-name}`
+    # or `{cargo-package-name}` for short when you are building a
+    # default bin for a given package.
+    handler: red-moon-graph
+    events:
+    - http:
+        path: graphql
+        method: post
+        cors: true

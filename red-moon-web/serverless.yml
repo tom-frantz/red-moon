@@ -1,0 +1,7 @@
+red-moon-web:
+  component: "@sls-next/serverless-component@3.6.0"
+  inputs:
+    nextConfigDir: "./red-moon-web"
+    build:
+      cmd: "yarn run"
+      cwd: "./red-moon-web"

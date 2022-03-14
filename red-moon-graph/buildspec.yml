@@ -22,6 +22,6 @@ phases:
       - ldd bootstrap
 artifacts:
   files:
-    - bootstrap
+    - "./bootstrap"
     # - add other resources such as CSS, Javascript assets, etc.
   #discard-paths: yes

@@ -16,6 +16,8 @@ phases:
       - cargo build --release
       # binary name must be "bootstrap" for Lambda custom runtime
       - mv target/release/red-moon-graph ../bootstrap
+
+      - cd ..
       # strip & check size, dependencies
       - strip --strip-all bootstrap
       - size bootstrap

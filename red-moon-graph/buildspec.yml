@@ -15,13 +15,13 @@ phases:
       # build Rust binary
       - cargo build --release
       # binary name must be "bootstrap" for Lambda custom runtime
-      - mv target/release/red-moon-graph bootstrap
+      - mv target/release/red-moon-graph ../bootstrap
       # strip & check size, dependencies
       - strip --strip-all bootstrap
       - size bootstrap
       - ldd bootstrap
 artifacts:
   files:
-    - "./bootstrap"
+    - bootstrap
     # - add other resources such as CSS, Javascript assets, etc.
   #discard-paths: yes

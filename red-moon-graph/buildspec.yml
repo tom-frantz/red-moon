@@ -10,6 +10,8 @@ phases:
       - curl -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal
   build:
     commands:
+      # go to the graphql subdirectory
+      - cd red-moon-graph
       # build Rust binary
       - cargo build --release
       # binary name must be "bootstrap" for Lambda custom runtime

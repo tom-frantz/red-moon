@@ -14,6 +14,10 @@ actix-cors = "0.6.0-beta.10"
 
 juniper = "0.15"
 
+diesel = { version = "1.4.8", features = ["postgres", "uuidv07"] }
+uuid = { version = "0.8.2", features = ["serde", "v4"] }
+dotenv = "0.15.0"
+
 env_logger = "0.9"
 log = "0.4"
 serde = { version = "1", features = ["derive"] }

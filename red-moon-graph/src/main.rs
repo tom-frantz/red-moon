@@ -14,6 +14,10 @@ use lambda_web::actix_web::{
 };
 use lambda_web::{is_running_on_lambda, run_actix_on_lambda, LambdaError};
 
+#[macro_use]
+extern crate diesel;
+
+mod database;
 mod schema;
 
 use crate::schema::{create_schema, Schema};

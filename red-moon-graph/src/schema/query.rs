@@ -7,7 +7,7 @@ pub struct QueryRoot;
 
 #[juniper::graphql_object]
 impl QueryRoot {
-    fn campaign_node(_id: String) -> FieldResult<Option<CampaignNode>> {
+    fn campaign_node(_id: ID) -> FieldResult<Option<CampaignNode>> {
         use crate::database::schema::campaign_nodes::dsl::*;
         use diesel::prelude::*;
 

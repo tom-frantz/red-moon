@@ -19,6 +19,7 @@ extern crate diesel;
 
 mod database;
 mod schema;
+mod utils;
 
 use crate::schema::{create_schema, Schema};
 

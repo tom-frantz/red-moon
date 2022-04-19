@@ -1,8 +1,7 @@
 use crate::database::schema::campaign_nodes;
-use crate::database::schema::campaign_nodes::campaign_id;
-use juniper::FieldResult;
-use juniper::{EmptySubscription, RootNode, ID};
-use juniper::{GraphQLEnum, GraphQLInputObject, GraphQLObject};
+use diesel::AsChangeset;
+use juniper::GraphQLObject;
+use juniper::ID;
 use uuid::Uuid;
 
 #[derive(GraphQLObject)]
@@ -15,7 +14,8 @@ pub struct CampaignNode {
     pub body: Option<String>,
 }
 
-#[derive(Queryable, Debug)]
+#[derive(Queryable, AsChangeset, Debug)]
+#[table_name = "campaign_nodes"]
 pub struct DbCampaignNode {
     pub id: Uuid,
     pub campaign_id: Uuid,
@@ -41,11 +41,5 @@ impl From<DbCampaignNode> for CampaignNode {
             description,
             body,
         }
-    }
-}
-
-impl From<CampaignNode> for DbCampaignNode {
-    fn from(object: CampaignNode) -> Self {
-        todo!()
     }
 }
